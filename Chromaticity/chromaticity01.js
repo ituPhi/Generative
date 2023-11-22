@@ -58,8 +58,8 @@ let palette = createPalette("00f556-ff2e38-ffab0f-00bfe0-ffee8f");
 
 }
 
-/*
+
 function mousePressed() {
   saveCanvas("cinetic2", "jpeg");
-}*/
+}
 
