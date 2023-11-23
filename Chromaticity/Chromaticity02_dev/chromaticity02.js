@@ -1,17 +1,29 @@
+// No tilt Version Juan Iturbe
+
+
 let colors;
 let stripeWidth;
-let tiltIncrement; // The amount by which the tilt increases per stripe
-let margin = 75; // Margin size
+let tiltIncrement;
+let margin;
 
 function setup() {
-  //let palette = createPalette('fce762-fffded-ffb17a-4f4789-201335');
-  //let palette = createPalette('333745-e63462-fe5f55-c7efcf-eef5db');
-  let palette = createPalette("00f556-ff2e38-ffab0f-00bfe0-ffee8f");
-  //palette = palette.shuffle();
+ 
+  let palette = createPalette('003049-d62828-f77f00-fcbf49-eae2b7');
 
-  createCanvas(800, 800);
+  // Calculate the canvas size while maintaining a 4:5 aspect ratio
+  let widthR = 1;
+  let heightR = 1; 
+  let dimensions = canvasRatio(widthR,heightR);
+  createCanvas(dimensions.canvasWidth, dimensions.canvasHeight);
+  const tiltScale = 15;
+  const modulo = 4;
 
-  // Define your colors - the last color is black for the tilted bars
+
+  stripeWidth = width / 800;
+  margin = width * 0.04;
+  tiltIncrement = (width / 800) * tiltScale;
+
+
   colors = [
     color(palette.get(1)),
     color(palette.get(3)),
@@ -22,17 +34,17 @@ function setup() {
     color('#000000'),
     color('#000000')
   ];
-  stripeWidth = width/1000; // The width of each stripe
-  tiltIncrement = 24; // Change this to adjust the skew effect
+  
 
-  background(palette.get(4));
+  background(palette.get(1));
+  
   let colorIndex = 0; // Start with the first color
 
   for (let x = margin; x < width - margin; x += stripeWidth) {
     let currentColor = colors[colorIndex % colors.length];
     let isBlack = (red(currentColor) === 0 && green(currentColor) === 0 && blue(currentColor) === 0);
 
-    let currentTilt = isBlack ? 0 : tiltIncrement * (x  / stripeWidth % 8);
+    let currentTilt = isBlack ? 0 : tiltIncrement * (x  / stripeWidth % modulo);
     let endX = x + stripeWidth;
     let endXTilted = endX + currentTilt;
 
@@ -46,19 +58,23 @@ function setup() {
       
     } else {
       // Draw other bars with potential tilt
-      quad(x, margin, 
-           min(endX, width - margin), margin, 
+      quad(x , margin, 
+           min(endX, width - margin) +2 , margin, 
            min(endXTilted, width - margin), height - margin, 
            min(x + currentTilt, width - margin), height - margin);
     }
     colorIndex++;
   }
-  addNoise(20);
+  addNoise(10);
 
 
 }
 
 
-function mousePressed() {
-  saveCanvas("chromatiCityInstagram", "jpeg");
+function keyTyped() {
+  if (key === 's') {
+      saveCanvas("Chromaticity02", "png");
+  } 
+  // uncomment to prevent any default behavior
+  // return false;
 }

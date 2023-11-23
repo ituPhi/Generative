@@ -9,7 +9,7 @@ function setup() {
   let palette = createPalette("00f556-ff2e38-ffab0f-00bfe0-ffee8f");
   //palette = palette.shuffle();
 
-  createCanvas(800, 800);
+  createCanvas(1080, 1350);
 
   // Define your colors - the last color is black for the tilted bars
   colors = [
