@@ -8,18 +8,20 @@ let margin;
 
 function setup() {
  
-  let palette = createPalette('003049-d62828-f77f00-fcbf49-eae2b7');
+ // let palette = createPalette('e9ce2c-e5f993-69a197-bf211e-f9dc5c');
+
+  let palette = createPalette('e9ce2c-e5f993-69a197-bf211e-f9dc5c');
 
   // Calculate the canvas size while maintaining a 4:5 aspect ratio
   let widthR = 1;
   let heightR = 1; 
   let dimensions = canvasRatio(widthR,heightR);
   createCanvas(dimensions.canvasWidth, dimensions.canvasHeight);
-  const tiltScale = 15;
-  const modulo = 4;
+  const tiltScale = 24;
+  const modulo = 8;
 
 
-  stripeWidth = width / 800;
+  stripeWidth = width / 1200  ;
   margin = width * 0.04;
   tiltIncrement = (width / 800) * tiltScale;
 
@@ -44,8 +46,8 @@ function setup() {
     let currentColor = colors[colorIndex % colors.length];
     let isBlack = (red(currentColor) === 0 && green(currentColor) === 0 && blue(currentColor) === 0);
 
-    let currentTilt = isBlack ? 0 : tiltIncrement * (x  / stripeWidth % modulo);
-    let endX = x + stripeWidth;
+    let currentTilt = isBlack ? 0 : tiltIncrement * ((x / 2) / stripeWidth % modulo );
+    let endX = x + stripeWidth * x ;
     let endXTilted = endX + currentTilt;
 
     fill(currentColor);
@@ -59,7 +61,7 @@ function setup() {
     } else {
       // Draw other bars with potential tilt
       quad(x , margin, 
-           min(endX, width - margin) +2 , margin, 
+           min(endX, width - margin) , margin, 
            min(endXTilted, width - margin), height - margin, 
            min(x + currentTilt, width - margin), height - margin);
     }
