@@ -8,19 +8,21 @@ let margin;
 function setup() {
   // let palette = createPalette('e9ce2c-e5f993-69a197-bf211e-f9dc5c');
 
-  let palette = createPalette("e9ce2c-e5f993-69a197-bf211e-f9dc5c");
+  let palette = createPalette("c03221-f7f7ff-f2d0a4-545e75-3f826d");
   palette.sortBySaturation();
+  palette.reverse();
+  palette.shuffle();
   // Calculate the canvas size while maintaining a 4:5 aspect ratio
   let widthR = 1;
   let heightR = 1;
   let dimensions = canvasRatio(widthR, heightR);
   createCanvas(dimensions.canvasWidth, dimensions.canvasHeight);
-  const tiltScale = 4;
-  const modulo = 12;
+  const tiltScale = 3;
+  const modulo = 4;
 
-  stripeWidth = width / 850;
+  stripeWidth = width / 900;
   margin = width * 0.04;
-  tiltIncrement = (width / 100) * tiltScale;
+  tiltIncrement = (width / 300) * tiltScale;
 
   colors = [
     color(palette.get(1)),
@@ -41,7 +43,7 @@ function setup() {
     let currentColor = colors[colorIndex % colors.length];
     let isBlack = red(currentColor) === 0 && green(currentColor) === 0 && blue(currentColor) === 0;
 
-    let currentTilt = isBlack ? 0 : tiltIncrement * ((x / 2 / stripeWidth) % modulo);
+    let currentTilt = isBlack ? 0 : tiltIncrement * (((x % 150) / stripeWidth) % modulo);
     let endX = x * stripeWidth;
     let endXTilted = endX + currentTilt;
 
@@ -58,9 +60,9 @@ function setup() {
         margin,
         min(endX, width - margin),
         margin,
-        min(endXTilted + 10, width - margin),
+        min(endXTilted, width - margin),
         height - margin,
-        min(x + currentTilt + 10, width - margin),
+        min(x + currentTilt + 5, width - margin),
         height - margin
       );
     }
@@ -71,7 +73,7 @@ function setup() {
 
 function keyTyped() {
   if (key === "s") {
-    saveCanvas("Chromaticity02" + day() + hour() + minute(), "png");
+    saveCanvas("Chromaticity" + day() + hour() + minute(), "png");
   }
   // uncomment to prevent any default behavior
   // return false;
