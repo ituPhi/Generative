@@ -2,7 +2,7 @@ let walker;
 
 function setup() {
   createCanvas(900, 900);
-  walker = new Walker(width / 2, height / 2, 25);
+  walker = new Walker(width / 2, height / 2, 2);
 }
 function draw() {
   // background(220);
