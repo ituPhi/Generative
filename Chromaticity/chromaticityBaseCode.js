@@ -4,14 +4,15 @@ let colors;
 let stripeWidth;
 let tiltIncrement;
 let margin;
+let colorStr = "ffff82-f5f7dc-b5d99c-0f0326-e65f5c";
 
 function setup() {
-  let palette = createPalette("e63946-f1faee-a8dadc-457b9d-1d3557");
-  palette.sortByBrightness();
+  let palette = createPalette(colorStr);
+  //palette.sortByBrightness();
   //palette.reverse();
   //palette.sortByLightness();
-  // palette.reverse();
-  //palette.sortBySaturation();
+  //palette.reverse();
+  palette.sortBySaturation();
   //palette.reverse();
   // palette.shuffle();
 
@@ -20,10 +21,10 @@ function setup() {
   let heightR = 1;
   let dimensions = canvasRatio(widthR, heightR);
   createCanvas(dimensions.canvasWidth, dimensions.canvasHeight);
-  const tiltScale = 12;
-  const modulo = 3.9;
+  const tiltScale = 10;
+  const modulo = 4.1;
 
-  stripeWidth = width / 900;
+  stripeWidth = width / 700;
   margin = width * 0.04;
   tiltIncrement = (width / 1900) * tiltScale;
 
@@ -38,7 +39,7 @@ function setup() {
     color("#000000"),
   ];
 
-  background(palette.get(1));
+  background(palette.get(3));
 
   let colorIndex = 0; // Start with the first color
 
@@ -47,7 +48,7 @@ function setup() {
     let isBlack = red(currentColor) === 0 && green(currentColor) === 0 && blue(currentColor) === 0;
 
     let currentTilt = isBlack ? 0 : tiltIncrement * ((x / stripeWidth) % modulo);
-    let endX = x + stripeWidth * 4;
+    let endX = x + stripeWidth * 3;
     let endXTilted = endX + currentTilt;
 
     fill(currentColor);
@@ -71,6 +72,15 @@ function setup() {
     }
     colorIndex++;
   }
+  fill(palette.get(0));
+
+  blendMode(DIFFERENCE);
+
+  for (let y = margin; y < height - margin; y += (stripeWidth * height) / 200) {
+    let barHeight = min(height / 2000, height - margin - y); // Calculate the maximum allowed height for each bar
+    rect(margin + stripeWidth * 2, y, width - margin * 2, barHeight);
+  }
+
   addNoise(10);
 }
 
