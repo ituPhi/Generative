@@ -7,7 +7,13 @@ function setup() {
 
 function draw() {
   background(220);
-  particleSystem.addParticles();
-  particleSystem.run();
+  if (mouseX > 0 || mouseY > 0) {
+    particleSystem.setOrigin(mouseX, mouseY);
+    particleSystem.addParticles();
+    particleSystem.run();
+  }
+
+  console.log(mouseX);
+  console.log(mouseY);
   //console.log("running here");
 }
