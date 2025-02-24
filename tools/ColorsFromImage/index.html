@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extract Color Palette</title>
+    <script src="https://cdn.jsdelivr.net/npm/colorthief/dist/color-thief.umd.js"></script>
+</head>
+<body>
+    <input type="file" id="upload" accept="image/*" onchange="extractPalette()" />
+    <canvas id="canvas" style="display: none;"></canvas>
+    <div id="palette"></div>
+
+    <script>
+        function extractPalette() {
+            const input = document.getElementById('upload');
+            const file = input.files[0];
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+
+            img.onload = function() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const colorThief = new ColorThief();
+                const palette = colorThief.getPalette(img, 10);
+
+                // Print the color palette to the terminal
+                console.log('Color Palette:', palette);
+
+                document.getElementById('palette').innerHTML = palette.map(
+                    color => {
+                        const hexColor = `#${((1 << 24) + (color[0] << 16) + (color[1] << 8) + color[2]).toString(16).slice(1)}`;
+                        return `<div style="display: inline-block; text-align: center; margin: 5px;">
+                                    <div style="background-color: rgb(${color.join(',')}); width: 100px; height: 100px;"></div>
+                                    <div>${hexColor}</div>
+                                </div>`;
+                    }
+                ).join('');
+            };
+        }
+    </script>
+</body>
+</html>
